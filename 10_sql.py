@@ -3,25 +3,33 @@ import sqlite3
 with sqlite3.connect('new.db') as connection:
 	c = connection.cursor()
 
-	# add new entries in the population table
-	cities = [
-				('Boston', 'MA', 600000),
-				('Los Angeles', 'CA', 38000000),
-				('Houston', 'TX', 2100000),
-				('Philadelphia', 'PA', 1500000),
-				('San Antonio', 'TX', 1400000),
-				('San Diego', 'CA', 130000),
-				('Dallas', 'TX', 1200000),
-				('San Jose', 'CA', 900000),
-				('Jacksonville', 'FL', 800000),
-				('Indianapolis', 'IN', 800000),
-				('Austin', 'TX', 800000),
-				('Detroit', 'MI', 700000)
-			]
+	# Create a new regions table
+	c.execute("CREATE TABLE regions(city TEXT, region TEXT)")
 
-	c.executemany("INSERT into population VALUES(?, ?, ?)", cities)
-	c.execute("SELECT * from population WHERE population > 1000000")
+	# Insert city enteris in table
+	cities = [
+				('New York City', 'Northeast'),
+				('San Francisco', 'West'),
+				('Chicago', 'Midwest'),
+				('Houston', 'South'),
+				('Phoenix', 'West'),
+				('Boston', 'Northeast'),
+				('Los Angeles', 'West'),
+				('Houston', 'South'),
+				('Philadelphia', 'Northeast'),
+				('San Antonio', 'South'),
+				('San Diego', 'West'),
+				('Dallas', 'South'),
+				('San Jose', 'West'),
+				('Jacksonville', 'South'),
+				('Indianapolis', 'Midwest'),
+				('Austin', 'South'),
+				('Detroit', 'Midwest')
+			 ]
+	c.executemany("INSERT INTO regions VALUES(?, ?)", cities)
+
+	c.execute("SELECT * from regions ORDER BY region ASC")
 	rows = c.fetchall()
 
 	for row in rows:
-		print(row[0], row[1], row[2])
+		print(row[0], row[1])
